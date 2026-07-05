@@ -11,10 +11,12 @@ subprojects { project ->
         if (project.plugins.hasPlugin("com.android.library")) {
             def androidExt = project.extensions.findByName("android")
             androidExt.libraryVariants.all { variant ->
-                variant.outputs.all { output ->
-                    def moduleName = project.name
-                    def versionName = rootProject.ext.versionNameString
-                    outputFileName = "${moduleName}-${versionName}.aar"
+                if (variant.buildType.name == "release") {
+                    variant.outputs.all { output ->
+                        def moduleName = project.name
+                        def versionName = rootProject.ext.versionNameString
+                        outputFileName = "${moduleName}-${versionName}.aar"
+                    }
                 }
             }
         }
